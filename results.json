@@ -1,0 +1,34 @@
+{
+  "question": "Can a class-balanced, isotonic-calibrated LightGBM model give more trustworthy alert probabilities than a standard random forest on the public Spambase alert-style dataset?",
+  "method": "Single stratified 75/25 split (seed 42) of OpenML Spambase. Baseline: 300-tree random forest with raw probabilities. Improved: class-balanced LightGBM with isotonic calibration (5-fold CV on the training split). Both run with seeds 42, 43, 44 and evaluated identically on the test split; no test-set tuning.",
+  "dataset": {
+    "name": "Spambase (OpenML ID 44)",
+    "source_url": "https://www.openml.org/d/44",
+    "n_rows": 4601,
+    "n_train": 3450,
+    "n_test": 1151,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "Brier score on test split (lower is better)",
+  "higher_is_better": false,
+  "baseline": "Standard random forest (300 trees, default settings) using raw predicted probabilities.",
+  "improved": "Class-balanced LightGBM (class_weight=balanced) with isotonic probability calibration via 5-fold CV on the training split.",
+  "metrics": {
+    "baseline_score": 0.04155530918852938,
+    "improved_score": 0.03433460248158553,
+    "improvement": 0.007220706706943851,
+    "baseline_score_std": 0.00029229996979567946,
+    "improved_score_std": 0.0,
+    "baseline_f1": 0.9483250708328956,
+    "improved_f1": 0.9563516391836632,
+    "baseline_f1_std": 0.0018752985810878173,
+    "improved_f1_std": 0.0,
+    "baseline_ece": 0.0499588211768924,
+    "improved_ece": 0.013958407490673584,
+    "baseline_ece_std": 0.0015432826227351744,
+    "improved_ece_std": 0.0,
+    "n_seeds": 3
+  },
+  "notes": "Spambase is a spam-email stand-in for security alerts, not an alert dataset. Single split; the std values only reflect model randomness over 3 seeds, not split variability. No hyperparameter search was run for either model. Macro-F1 uses a 0.5 threshold on the probabilities. ECE uses 10 equal-width bins. Class-balancing shifts probabilities away from the base rate; isotonic calibration is intended to correct this, but results may not transfer to real alert streams."
+}
